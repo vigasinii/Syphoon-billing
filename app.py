@@ -11,7 +11,7 @@ Endpoints:
 import os
 import logging
 from datetime import date, timedelta
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 
@@ -47,8 +47,14 @@ def parse_invoice_date(period: str, policy: str) -> date:
 
 
 # ---------------------------------------------------------------------------
-# GET /usage
+# GET / — serve the approve/dispute webpage
 # ---------------------------------------------------------------------------
+@app.route("/", methods=["GET"])
+def index():
+    return send_from_directory(".", "approve.html")
+
+
+
 @app.route("/usage", methods=["GET"])
 def get_usage():
     account_id = request.args.get("account", "")
